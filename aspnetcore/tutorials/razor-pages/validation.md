@@ -5,14 +5,13 @@ description: Part 8 of tutorial series on Razor Pages.
 ms.author: riande
 ms.custom: mvc, contperf-fy21q2
 ms.date: 10/13/2021
-no-loc: [Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: tutorials/razor-pages/validation
 ---
 # Part 8 of tutorial series on Razor Pages
 
 By [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 In this section, validation logic is added to the `Movie` model. The validation rules are enforced any time a user creates or edits a movie.
 
@@ -30,7 +29,7 @@ The validation support provided by Razor Pages and Entity Framework is a good ex
 
 ## Add validation rules to the movie model
 
-The `DataAnnotations` namespace provides:
+The <xref:System.ComponentModel.DataAnnotations> namespace provides:
 
 * A set of built-in validation attributes that are applied declaratively to a class or property.
 * Formatting attributes like `[DataType]` that help with formatting and don't provide any validation.
@@ -104,7 +103,7 @@ Optional, test server-side validation:
   
 Alternatively, [Disable client-side validation on the server](xref:mvc/models/validation#disable-client-side-validation).
 
-The following code shows a portion of the *Create.cshtml* page scaffolded earlier in the tutorial. It's used by the Create and Edit pages to:
+The following code shows a portion of the `Create.cshtml` page scaffolded earlier in the tutorial. It's used by the Create and Edit pages to:
 
 * Display the initial form.
 * Redisplay the form in the event of an error.
@@ -253,9 +252,9 @@ Thanks for completing this introduction to Razor Pages. [Get started with Razor 
 
 > [!div class="step-by-step"]
 > [Previous: Add a new field](xref:tutorials/razor-pages/new-field)
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-6.0"
+:::moniker range="< aspnetcore-6.0"
 
 In this section, validation logic is added to the `Movie` model. The validation rules are enforced any time a user creates or edits a movie.
 
@@ -347,7 +346,7 @@ Optional, test server-side validation:
   
 Alternatively, [Disable client-side validation on the server](xref:mvc/models/validation#disable-client-side-validation).
 
-The following code shows a portion of the *Create.cshtml* page scaffolded earlier in the tutorial. It's used by the Create and Edit pages to:
+The following code shows a portion of the `Create.cshtml` page scaffolded earlier in the tutorial. It's used by the Create and Edit pages to:
 
 * Display the initial form.
 * Redisplay the form in the event of an error.
@@ -481,4 +480,4 @@ Thanks for completing this introduction to Razor Pages. [Get started with Razor 
 
 > [!div class="step-by-step"]
 > [Previous: Add a new field](xref:tutorials/razor-pages/new-field)
-::: moniker-end
+:::moniker-end

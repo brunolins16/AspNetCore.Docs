@@ -1,19 +1,20 @@
 ---
-title: Build Progressive Web Applications with ASP.NET Core Blazor WebAssembly
+title: ASP.NET Core Blazor Progressive Web Application (PWA)
 author: guardrex
-description: Learn how to build a Blazor-based Progressive Web Application (PWA) that use modern browser features to behave like a desktop app.
+description: Learn how to build a Blazor Progressive Web Application (PWA) that use modern browser features to behave like a desktop app.
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 11/09/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: blazor/progressive-web-app
 ---
-# Build Progressive Web Applications with ASP.NET Core Blazor WebAssembly
+# ASP.NET Core Blazor Progressive Web Application (PWA)
 
-::: moniker range=">= aspnetcore-6.0"
+A Blazor Progressive Web Application (PWA) is a single-page application (SPA) that uses modern browser APIs and capabilities to behave like a desktop app.
 
-A Progressive Web Application (PWA) is usually a Single Page Application (SPA) that uses modern browser APIs and capabilities to behave like a desktop app. Blazor WebAssembly is a standards-based client-side web app platform, so it can use any browser API, including PWA APIs required for the following capabilities:
+:::moniker range=">= aspnetcore-6.0"
+
+Blazor WebAssembly is a standards-based client-side web app platform, so it can use any browser API, including PWA APIs required for the following capabilities:
 
 * Working offline and loading instantly, independent of network speed.
 * Running in its own app window, not just a browser window.
@@ -21,7 +22,7 @@ A Progressive Web Application (PWA) is usually a Single Page Application (SPA) t
 * Receiving push notifications from a backend server, even while the user isn't using the app.
 * Automatically updating in the background.
 
-The word *progressive* is used to describe such apps because:
+The word *progressive* is used to describe these apps because:
 
 * A user might first discover and use the app within their web browser like any other SPA.
 * Later, the user progresses to installing it in their OS and enabling push notifications.
@@ -30,13 +31,11 @@ The word *progressive* is used to describe such apps because:
 
 # [Visual Studio](#tab/visual-studio)
 
-When creating a new **Blazor WebAssembly App** in the **Create a New Project** dialog, select the **Progressive Web Application** checkbox.
-
-<!--
+When creating a new **Blazor WebAssembly App**, select the **Progressive Web Application** checkbox.
 
 # [Visual Studio for Mac](#tab/visual-studio-mac)
 
--->
+When creating a new **Blazor WebAssembly App**, select the **Progressive Web Application** checkbox.
 
 # [Visual Studio Code / .NET Core CLI](#tab/visual-studio-code+netcore-cli)
 
@@ -143,7 +142,7 @@ By default, apps created using the PWA template option have support for running 
 > Development support would interfere with the usual development cycle of making changes and testing them. Therefore, offline support is only enabled for *published* apps. 
 
 > [!WARNING]
-> If you intend to distribute an offline-enabled PWA, there are [several important warnings and caveats](#caveats-for-offline-pwas). These scenarios are inherent to offline PWAs and not specific to Blazor. Be sure to read and understand these caveats before making assumptions about how your offline-enabled app will work.
+> If you intend to distribute an offline-enabled PWA, there are [several important warnings and caveats](#caveats-for-offline-pwas). These scenarios are inherent to offline PWAs and not specific to Blazor. Be sure to read and understand these caveats before making assumptions about how your offline-enabled app works.
 
 To see how offline support works:
 
@@ -190,6 +189,14 @@ The cache-first strategy is valuable because:
   This is why the browser's `navigator.onLine` API isn't reliable and shouldn't be depended upon.
 
 * **It ensures correctness.** When building a cache of offline resources, the service worker uses content hashing to guarantee it has fetched a complete and self-consistent snapshot of resources at a single instant in time. This cache is then used as an atomic unit. There's no point asking the network for newer resources, since the only versions required are the ones already cached. Anything else risks inconsistency and incompatibility (for example, trying to use versions of .NET assemblies that weren't compiled together).
+
+If you must prevent the browser from fetching `service-worker-assets.js` from its HTTP cache, for example to resolve temporary integrity check failures when deploying a new version of the service worker, update the service worker registration in `wwwroot/index.html` with [`updateViaCache`](https://developer.mozilla.org/docs/Web/API/ServiceWorkerRegistration/updateViaCache) set to 'none':
+
+```html
+<script>
+  navigator.serviceWorker.register('/service-worker.js', {updateViaCache: 'none'});
+</script>
+```
 
 ### Background updates
 
@@ -366,11 +373,11 @@ The [`CarChecker`](https://github.com/SteveSandersonMS/CarChecker) sample app de
 * [Troubleshoot integrity PowerShell script](xref:blazor/host-and-deploy/webassembly#troubleshoot-integrity-powershell-script)
 * [SignalR cross-origin negotiation for authentication](xref:blazor/fundamentals/signalr#signalr-cross-origin-negotiation-for-authentication-blazor-webassembly)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
-A Progressive Web Application (PWA) is usually a Single Page Application (SPA) that uses modern browser APIs and capabilities to behave like a desktop app. Blazor WebAssembly is a standards-based client-side web app platform, so it can use any browser API, including PWA APIs required for the following capabilities:
+Blazor WebAssembly is a standards-based client-side web app platform, so it can use any browser API, including PWA APIs required for the following capabilities:
 
 * Working offline and loading instantly, independent of network speed.
 * Running in its own app window, not just a browser window.
@@ -387,12 +394,11 @@ The word *progressive* is used to describe such apps because:
 
 # [Visual Studio](#tab/visual-studio)
 
-When creating a new **Blazor WebAssembly App** in the **Create a New Project** dialog, select the **Progressive Web Application** checkbox.
-<!--
+When creating a new **Blazor WebAssembly App**, select the **Progressive Web Application** checkbox.
 
 # [Visual Studio for Mac](#tab/visual-studio-mac)
 
--->
+When creating a new **Blazor WebAssembly App**, select the **Progressive Web Application** checkbox.
 
 # [Visual Studio Code / .NET Core CLI](#tab/visual-studio-code+netcore-cli)
 
@@ -499,7 +505,7 @@ By default, apps created using the PWA template option have support for running 
 > Development support would interfere with the usual development cycle of making changes and testing them. Therefore, offline support is only enabled for *published* apps. 
 
 > [!WARNING]
-> If you intend to distribute an offline-enabled PWA, there are [several important warnings and caveats](#caveats-for-offline-pwas). These scenarios are inherent to offline PWAs and not specific to Blazor. Be sure to read and understand these caveats before making assumptions about how your offline-enabled app will work.
+> If you intend to distribute an offline-enabled PWA, there are [several important warnings and caveats](#caveats-for-offline-pwas). These scenarios are inherent to offline PWAs and not specific to Blazor. Be sure to read and understand these caveats before making assumptions about how your offline-enabled app works.
 
 To see how offline support works:
 
@@ -546,6 +552,14 @@ The cache-first strategy is valuable because:
   This is why the browser's `navigator.onLine` API isn't reliable and shouldn't be depended upon.
 
 * **It ensures correctness.** When building a cache of offline resources, the service worker uses content hashing to guarantee it has fetched a complete and self-consistent snapshot of resources at a single instant in time. This cache is then used as an atomic unit. There's no point asking the network for newer resources, since the only versions required are the ones already cached. Anything else risks inconsistency and incompatibility (for example, trying to use versions of .NET assemblies that weren't compiled together).
+
+If you must prevent the browser from fetching `service-worker-assets.js` from its HTTP cache, for example to resolve temporary integrity check failures when deploying a new version of the service worker, update the service worker registration in `wwwroot/index.html` with [`updateViaCache`](https://developer.mozilla.org/docs/Web/API/ServiceWorkerRegistration/updateViaCache) set to 'none':
+
+```html
+<script>
+  navigator.serviceWorker.register('/service-worker.js', {updateViaCache: 'none'});
+</script>
+```
 
 ### Background updates
 
@@ -722,11 +736,11 @@ The [`CarChecker`](https://github.com/SteveSandersonMS/CarChecker) sample app de
 * [Troubleshoot integrity PowerShell script](xref:blazor/host-and-deploy/webassembly#troubleshoot-integrity-powershell-script)
 * [SignalR cross-origin negotiation for authentication](xref:blazor/fundamentals/signalr#signalr-cross-origin-negotiation-for-authentication-blazor-webassembly)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
-A Progressive Web Application (PWA) is usually a Single Page Application (SPA) that uses modern browser APIs and capabilities to behave like a desktop app. Blazor WebAssembly is a standards-based client-side web app platform, so it can use any browser API, including PWA APIs required for the following capabilities:
+Blazor WebAssembly is a standards-based client-side web app platform, so it can use any browser API, including PWA APIs required for the following capabilities:
 
 * Working offline and loading instantly, independent of network speed.
 * Running in its own app window, not just a browser window.
@@ -743,13 +757,11 @@ The word *progressive* is used to describe such apps because:
 
 # [Visual Studio](#tab/visual-studio)
 
-When creating a new **Blazor WebAssembly App** in the **Create a New Project** dialog, select the **Progressive Web Application** checkbox.
-
-<!--
+When creating a new **Blazor WebAssembly App**, select the **Progressive Web Application** checkbox.
 
 # [Visual Studio for Mac](#tab/visual-studio-mac)
 
--->
+When creating a new **Blazor WebAssembly App**, select the **Progressive Web Application** checkbox.
 
 # [Visual Studio Code / .NET Core CLI](#tab/visual-studio-code+netcore-cli)
 
@@ -855,7 +867,7 @@ By default, apps created using the PWA template option have support for running 
 > Development support would interfere with the usual development cycle of making changes and testing them. Therefore, offline support is only enabled for *published* apps. 
 
 > [!WARNING]
-> If you intend to distribute an offline-enabled PWA, there are [several important warnings and caveats](#caveats-for-offline-pwas). These scenarios are inherent to offline PWAs and not specific to Blazor. Be sure to read and understand these caveats before making assumptions about how your offline-enabled app will work.
+> If you intend to distribute an offline-enabled PWA, there are [several important warnings and caveats](#caveats-for-offline-pwas). These scenarios are inherent to offline PWAs and not specific to Blazor. Be sure to read and understand these caveats before making assumptions about how your offline-enabled app works.
 
 To see how offline support works:
 
@@ -902,6 +914,14 @@ The cache-first strategy is valuable because:
   This is why the browser's `navigator.onLine` API isn't reliable and shouldn't be depended upon.
 
 * **It ensures correctness.** When building a cache of offline resources, the service worker uses content hashing to guarantee it has fetched a complete and self-consistent snapshot of resources at a single instant in time. This cache is then used as an atomic unit. There's no point asking the network for newer resources, since the only versions required are the ones already cached. Anything else risks inconsistency and incompatibility (for example, trying to use versions of .NET assemblies that weren't compiled together).
+
+If you must prevent the browser from fetching `service-worker-assets.js` from its HTTP cache, for example to resolve temporary integrity check failures when deploying a new version of the service worker, update the service worker registration in `wwwroot/index.html` with [`updateViaCache`](https://developer.mozilla.org/docs/Web/API/ServiceWorkerRegistration/updateViaCache) set to 'none':
+
+```html
+<script>
+  navigator.serviceWorker.register('/service-worker.js', {updateViaCache: 'none'});
+</script>
+```
 
 ### Background updates
 
@@ -1078,4 +1098,4 @@ The [`CarChecker`](https://github.com/SteveSandersonMS/CarChecker) sample app de
 * [Troubleshoot integrity PowerShell script](xref:blazor/host-and-deploy/webassembly#troubleshoot-integrity-powershell-script)
 * [SignalR cross-origin negotiation for authentication](xref:blazor/fundamentals/signalr#signalr-cross-origin-negotiation-for-authentication-blazor-webassembly)
 
-::: moniker-end
+:::moniker-end

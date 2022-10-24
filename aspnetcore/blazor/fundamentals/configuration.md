@@ -6,20 +6,24 @@ monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 11/09/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: blazor/fundamentals/configuration
 ---
 # ASP.NET Core Blazor configuration
 
-::: moniker range=">= aspnetcore-6.0"
+This article explains configuration of Blazor apps, including app settings, authentication, and logging configuration.
 
-> [!NOTE]
+:::moniker range=">= aspnetcore-6.0"
+
+> [!IMPORTANT]
 > This topic applies to Blazor WebAssembly. For general guidance on ASP.NET Core app configuration, see <xref:fundamentals/configuration/index>.
 
 Blazor WebAssembly loads configuration from the following app settings files by default:
 
 * `wwwroot/appsettings.json`.
 * `wwwroot/appsettings.{ENVIRONMENT}.json`, where the `{ENVIRONMENT}` placeholder is the app's [runtime environment](xref:fundamentals/environments).
+
+> [!NOTE]
+> Logging configuration placed into an app settings file in `wwwroot` of a Blazor WebAssembly app isn't loaded by default. For for information, see the [Logging configuration](#logging-configuration) section later in this article.
 
 Other configuration providers registered by the app can also provide configuration, but not all providers or provider features are appropriate for Blazor WebAssembly apps:
 
@@ -189,13 +193,11 @@ builder.Services.AddOidcAuthentication(options =>
 
 ## Logging configuration
 
-Add a package reference for [`Microsoft.Extensions.Logging.Configuration`](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration) to the app's project file:
+*This section applies to Blazor WebAssembly apps that configure logging via an app settings file in the `wwwroot` folder.*
 
-```xml
-<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="{VERSION}" />
-```
+Add the [`Microsoft.Extensions.Logging.Configuration`](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration) package to the app.
 
-In the preceding example, the `{VERSION}` placeholder is the package's version. Package versions are found at [NuGet.org](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration).
+[!INCLUDE[](~/includes/package-reference.md)]
 
 In the app settings file, provide logging configuration. The logging configuration is loaded in `Program.cs`.
 
@@ -212,12 +214,6 @@ In the app settings file, provide logging configuration. The logging configurati
 }
 ```
 
-Add the namespace for <xref:Microsoft.Extensions.Logging?displayProperty=fullName> to `Program.cs`:
-
-```csharp
-using Microsoft.Extensions.Logging;
-```
-
 In `Program.cs`:
 
 ```csharp
@@ -244,9 +240,24 @@ Configuration files are cached for offline use. With [Progressive Web Applicatio
 
 For more information on how background updates are handled by PWAs, see <xref:blazor/progressive-web-app#background-updates>.
 
-::: moniker-end
+## Options configuration
 
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+[Options configuration](xref:fundamentals/configuration/options) for Blazor WebAssembly apps requires adding a package reference for the [`Microsoft.Extensions.Options.ConfigurationExtensions`](https://www.nuget.org/packages/Microsoft.Extensions.Options.ConfigurationExtensions) NuGet package.
+
+[!INCLUDE[](~/includes/package-reference.md)]
+
+Example:
+
+```csharp
+builder.Services.Configure<MyOptions>(
+    builder.Configuration.GetSection("MyOptions"));
+```
+
+Not all of the ASP.NET Core Options features are supported in Razor components. For example, <xref:Microsoft.Extensions.Options.IOptionsSnapshot%601> and <xref:Microsoft.Extensions.Options.IOptionsMonitor%601> configuration is supported, but recomputing option values for these interfaces isn't supported outside of reloading the app by either requesting the app in a new browser tab or selecting the browser's reload button. Merely calling [`StateHasChanged`](xref:blazor/components/lifecycle#state-changes-statehaschanged) doesn't update snapshot or monitored option values when the underlying configuration changes.
+
+:::moniker-end
+
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
 > [!NOTE]
 > This topic applies to Blazor WebAssembly. For general guidance on ASP.NET Core app configuration, see <xref:fundamentals/configuration/index>.
@@ -255,6 +266,9 @@ Blazor WebAssembly loads configuration from the following app settings files by 
 
 * `wwwroot/appsettings.json`.
 * `wwwroot/appsettings.{ENVIRONMENT}.json`, where the `{ENVIRONMENT}` placeholder is the app's [runtime environment](xref:fundamentals/environments).
+
+> [!NOTE]
+> Logging configuration placed into an app settings file in `wwwroot` of a Blazor WebAssembly app isn't loaded by default. For for information, see the [Logging configuration](#logging-configuration) section later in this article.
 
 Other configuration providers registered by the app can also provide configuration, but not all providers or provider features are appropriate for Blazor WebAssembly apps:
 
@@ -424,13 +438,11 @@ builder.Services.AddOidcAuthentication(options =>
 
 ## Logging configuration
 
-Add a package reference for [`Microsoft.Extensions.Logging.Configuration`](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration) to the app's project file:
+*This section applies to Blazor WebAssembly apps that configure logging via an app settings file in the `wwwroot` folder.*
 
-```xml
-<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="{VERSION}" />
-```
+Add the [`Microsoft.Extensions.Logging.Configuration`](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration) package to the app.
 
-In the preceding example, the `{VERSION}` placeholder is the package's version. Package versions are found at [NuGet.org](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration).
+[!INCLUDE[](~/includes/package-reference.md)]
 
 In the app settings file, provide logging configuration. The logging configuration is loaded in `Program.cs`.
 
@@ -480,9 +492,24 @@ Configuration files are cached for offline use. With [Progressive Web Applicatio
 
 For more information on how background updates are handled by PWAs, see <xref:blazor/progressive-web-app#background-updates>.
 
-::: moniker-end
+## Options configuration
 
-::: moniker range="< aspnetcore-5.0"
+[Options configuration](xref:fundamentals/configuration/options) for Blazor WebAssembly apps requires adding a package reference for the [`Microsoft.Extensions.Options.ConfigurationExtensions`](https://www.nuget.org/packages/Microsoft.Extensions.Options.ConfigurationExtensions) NuGet package.
+
+[!INCLUDE[](~/includes/package-reference.md)]
+
+Example:
+
+```csharp
+builder.Services.Configure<MyOptions>(
+    builder.Configuration.GetSection("MyOptions"));
+```
+
+Not all of the ASP.NET Core Options features are supported in Razor components. For example, <xref:Microsoft.Extensions.Options.IOptionsSnapshot%601> and <xref:Microsoft.Extensions.Options.IOptionsMonitor%601> configuration is supported, but recomputing option values for these interfaces isn't supported outside of reloading the app by either requesting the app in a new browser tab or selecting the browser's reload button. Merely calling [`StateHasChanged`](xref:blazor/components/lifecycle#state-changes-statehaschanged) doesn't update snapshot or monitored option values when the underlying configuration changes.
+
+:::moniker-end
+
+:::moniker range="< aspnetcore-5.0"
 
 > [!NOTE]
 > This topic applies to Blazor WebAssembly. For general guidance on ASP.NET Core app configuration, see <xref:fundamentals/configuration/index>.
@@ -491,6 +518,9 @@ Blazor WebAssembly loads configuration from the following app settings files by 
 
 * `wwwroot/appsettings.json`.
 * `wwwroot/appsettings.{ENVIRONMENT}.json`, where the `{ENVIRONMENT}` placeholder is the app's [runtime environment](xref:fundamentals/environments).
+
+> [!NOTE]
+> Logging configuration placed into an app settings file in `wwwroot` of a Blazor WebAssembly app isn't loaded by default. For for information, see the [Logging configuration](#logging-configuration) section later in this article.
 
 Other configuration providers registered by the app can also provide configuration, but not all providers or provider features are appropriate for Blazor WebAssembly apps:
 
@@ -660,13 +690,11 @@ builder.Services.AddOidcAuthentication(options =>
 
 ## Logging configuration
 
-Add a package reference for [`Microsoft.Extensions.Logging.Configuration`](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration) to the app's project file:
+*This section applies to Blazor WebAssembly apps that configure logging via an app settings file in the `wwwroot` folder.*
 
-```xml
-<PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="{VERSION}" />
-```
+Add the [`Microsoft.Extensions.Logging.Configuration`](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration) package to the app.
 
-In the preceding example, the `{VERSION}` placeholder is the package's version. Package versions are found at [NuGet.org](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Configuration).
+[!INCLUDE[](~/includes/package-reference.md)]
 
 In the app settings file, provide logging configuration. The logging configuration is loaded in `Program.cs`.
 
@@ -716,4 +744,19 @@ Configuration files are cached for offline use. With [Progressive Web Applicatio
 
 For more information on how background updates are handled by PWAs, see <xref:blazor/progressive-web-app#background-updates>.
 
-::: moniker-end
+## Options configuration
+
+[Options configuration](xref:fundamentals/configuration/options) for Blazor WebAssembly apps requires adding a package reference for the [`Microsoft.Extensions.Options.ConfigurationExtensions`](https://www.nuget.org/packages/Microsoft.Extensions.Options.ConfigurationExtensions) NuGet package.
+
+[!INCLUDE[](~/includes/package-reference.md)]
+
+Example:
+
+```csharp
+builder.Services.Configure<MyOptions>(
+    builder.Configuration.GetSection("MyOptions"));
+```
+
+Not all of the ASP.NET Core Options features are supported in Razor components. For example, <xref:Microsoft.Extensions.Options.IOptionsSnapshot%601> and <xref:Microsoft.Extensions.Options.IOptionsMonitor%601> configuration is supported, but recomputing option values for these interfaces isn't supported outside of reloading the app by either requesting the app in a new browser tab or selecting the browser's reload button. Merely calling [`StateHasChanged`](xref:blazor/components/lifecycle#state-changes-statehaschanged) doesn't update snapshot or monitored option values when the underlying configuration changes.
+
+:::moniker-end

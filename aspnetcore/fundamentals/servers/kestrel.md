@@ -5,8 +5,7 @@ description: Learn about Kestrel, the cross-platform web server for ASP.NET Core
 monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 05/04/2020
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 04/01/2022
 uid: fundamentals/servers/kestrel
 ---
 # Kestrel web server implementation in ASP.NET Core
@@ -30,7 +29,7 @@ Kestrel is supported on all platforms and versions that .NET Core supports.
 
 ## Get started
 
-ASP.NET Core project templates use Kestrel by default when not hosted with IIS. In *Program.cs*, the <xref:Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder%2A?displayProperty=nameWithType> method calls <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel%2A>:
+ASP.NET Core project templates use Kestrel by default when not hosted with IIS. In the following template-generated `Program.cs`, the <xref:Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder%2A?displayProperty=nameWithType> method calls <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel%2A> internally:
 
 :::code language="csharp" source="kestrel/samples/6.x/KestrelSample/Program.cs" id="snippet_CreateBuilder" highlight="1":::
 
@@ -44,6 +43,7 @@ For information on apps that must protect a subset of the app with a certificate
 
 <a name="endpoint-configuration"></a>
 * <xref:fundamentals/servers/kestrel/endpoints>
+* Source for [`WebApplication.CreateBuilder` method call to `UseKestrel`](https://github.com/dotnet/aspnetcore/blob/v6.0.2/src/DefaultBuilder/src/WebHost.cs#L224)
 <a name="kestrel-options"></a>
 * <xref:fundamentals/servers/kestrel/options>
 <a name="http2-support"></a>
@@ -56,7 +56,7 @@ For information on apps that must protect a subset of the app with a certificate
 * <xref:security/enforcing-ssl>
 * <xref:host-and-deploy/proxy-load-balancer>
 * [RFC 7230: Message Syntax and Routing (Section 5.4: Host)](https://tools.ietf.org/html/rfc7230#section-5.4)
-* When using UNIX sockets on Linux, the socket is not automatically deleted on app shut down. For more information, see [this GitHub issue](https://github.com/dotnet/aspnetcore/issues/14134).
+* When using UNIX sockets on Linux, the socket isn't automatically deleted on app shutdown. For more information, see [this GitHub issue](https://github.com/dotnet/aspnetcore/issues/14134).
 
 > [!NOTE]
 > As of ASP.NET Core 5.0, Kestrel's libuv transport is obsolete. The libuv transport doesn't receive updates to support new OS platforms, such as Windows ARM64, and will be removed in a future release. Remove any calls to the obsolete <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderLibuvExtensions.UseLibuv%2A> method and use Kestrel's default Socket transport instead.
@@ -82,7 +82,7 @@ Kestrel is supported on all platforms and versions that .NET Core supports.
 
 ## Get started
 
-ASP.NET Core project templates use Kestrel by default when not hosted with IIS. In *Program.cs*, the <xref:Microsoft.Extensions.Hosting.GenericHostBuilderExtensions.ConfigureWebHostDefaults%2A> method calls <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel%2A>:
+ASP.NET Core project templates use Kestrel by default when not hosted with IIS. In `Program.cs`, the <xref:Microsoft.Extensions.Hosting.GenericHostBuilderExtensions.ConfigureWebHostDefaults%2A> method calls <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel%2A>:
 
 :::code language="csharp" source="kestrel/samples/5.x/KestrelSample/Program.cs" id="snippet_DefaultBuilder" highlight="8":::
 
@@ -152,15 +152,20 @@ Starting with .NET Core 3.0, HTTP/2 is enabled by default. For more information 
 
 ## When to use Kestrel with a reverse proxy
 
-Kestrel can be used by itself or with a *reverse proxy server*, such as [Internet Information Services (IIS)](https://www.iis.net/), [Nginx](https://nginx.org), or [Apache](https://httpd.apache.org/). A reverse proxy server receives HTTP requests from the network and forwards them to Kestrel.
+Kestrel can be used by itself or with a *reverse proxy server*. A reverse proxy server receives HTTP requests from the network and forwards them to Kestrel. Examples of a reverse proxy server include:
+
+* [Internet Information Services (IIS)](https://www.iis.net/)
+* [Nginx](https://nginx.org)
+* [Apache](https://httpd.apache.org/)
+* [YARP: Yet Another Reverse Proxy](https://microsoft.github.io/reverse-proxy/)
 
 Kestrel used as an edge (Internet-facing) web server:
 
-![Kestrel communicates directly with the Internet without a reverse proxy server](kestrel/_static/kestrel-to-internet2.png)
+:::image source="kestrel/_static/kestrel-to-internet2.png" alt-text="Kestrel communicates directly with the Internet without a reverse proxy server":::
 
 Kestrel used in a reverse proxy configuration:
 
-![Kestrel communicates indirectly with the Internet through a reverse proxy server, such as IIS, Nginx, or Apache](kestrel/_static/kestrel-to-internet.png)
+:::image source="kestrel/_static/kestrel-to-internet.png" alt-text="Kestrel communicates indirectly with the Internet through a reverse proxy server, such as IIS, Nginx, or Apache":::
 
 Either configuration, with or without a reverse proxy server, is a supported hosting configuration.
 
@@ -180,7 +185,7 @@ A reverse proxy:
 
 ## Kestrel in ASP.NET Core apps
 
-ASP.NET Core project templates use Kestrel by default. In *Program.cs*, the <xref:Microsoft.Extensions.Hosting.GenericHostBuilderExtensions.ConfigureWebHostDefaults%2A> method calls <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel%2A>:
+ASP.NET Core project templates use Kestrel by default. In `Program.cs`, the <xref:Microsoft.Extensions.Hosting.GenericHostBuilderExtensions.ConfigureWebHostDefaults%2A> method calls <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel%2A>:
 
 :::code language="csharp" source="kestrel/samples/3.x/KestrelSample/Program.cs" id="snippet_DefaultBuilder" highlight="8":::
 
@@ -213,7 +218,7 @@ The following examples use the <xref:Microsoft.AspNetCore.Server.Kestrel.Core> n
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 ```
 
-In examples shown later in this article, Kestrel options are configured in C# code. Kestrel options can also be set using a [configuration provider](xref:fundamentals/configuration/index). For example, the [File Configuration Provider](xref:fundamentals/configuration/index#file-configuration-provider) can load Kestrel configuration from an *appsettings.json* or *appsettings.{Environment}.json* file:
+In examples shown later in this article, Kestrel options are configured in C# code. Kestrel options can also be set using a [configuration provider](xref:fundamentals/configuration/index). For example, the [File Configuration Provider](xref:fundamentals/configuration/index#file-configuration-provider) can load Kestrel configuration from an `appsettings.json` or `appsettings.{Environment}.json` file:
 
 ```json
 {
@@ -264,7 +269,7 @@ Use **one** of the following approaches:
 
 * Configure Kestrel when building the host:
 
-  In *Program.cs*, load the `Kestrel` section of configuration into Kestrel's configuration:
+  In `Program.cs`, load the `Kestrel` section of configuration into Kestrel's configuration:
 
   ```csharp
   // using Microsoft.Extensions.DependencyInjection;
@@ -343,7 +348,7 @@ The default minimum rate is 240 bytes/second with a 5 second grace period.
 
 A minimum rate also applies to the response. The code to set the request limit and the response limit is the same except for having `RequestBody` or `Response` in the property and interface names.
 
-Here's an example that shows how to configure the minimum data rates in *Program.cs*:
+Here's an example that shows how to configure the minimum data rates in `Program.cs`:
 
 :::code language="csharp" source="kestrel/samples/3.x/KestrelSample/Program.cs" id="snippet_Limits" highlight="6-11":::
 
@@ -487,7 +492,7 @@ For more information on these approaches, see [Server URLs](xref:fundamentals/ho
 A development certificate is created:
 
 * When the [.NET Core SDK](/dotnet/core/sdk) is installed.
-* The [dev-certs tool](xref:aspnetcore-2.1#https) is used to create a certificate.
+* The [dev-certs tool](/dotnet/core/tools/dotnet-dev-certs) is used to create a certificate.
 
 Some browsers require granting explicit permission to trust the local development certificate.
 
@@ -585,7 +590,7 @@ Kestrel listens on `http://localhost:5000` and `https://localhost:5001` (if a de
 
 `CreateDefaultBuilder` calls `Configure(context.Configuration.GetSection("Kestrel"))` by default to load Kestrel configuration. A default HTTPS app settings configuration schema is available for Kestrel. Configure multiple endpoints, including the URLs and the certificates to use, either from a file on disk or from a certificate store.
 
-In the following *appsettings.json* example:
+In the following `appsettings.json` example:
 
 * Set **AllowInvalid** to `true` to permit the use of invalid certificates (for example, self-signed certificates).
 * Any HTTPS endpoint that doesn't specify a certificate (**HttpsDefaultCert** in the example that follows) falls back to the cert defined under **Certificates** > **Default** or the development certificate.
@@ -947,7 +952,7 @@ webBuilder.ConfigureKestrel(serverOptions =>
 
 `CreateDefaultBuilder` calls `serverOptions.Configure(context.Configuration.GetSection("Kestrel"))` by default to load Kestrel configuration.
 
-The following *appsettings.json* example establishes HTTP/1.1 as the default connection protocol for all endpoints:
+The following `appsettings.json` example establishes HTTP/1.1 as the default connection protocol for all endpoints:
 
 ```json
 {
@@ -959,7 +964,7 @@ The following *appsettings.json* example establishes HTTP/1.1 as the default con
 }
 ```
 
-The following *appsettings.json* example establishes the HTTP/1.1 connection protocol for a specific endpoint:
+The following `appsettings.json` example establishes the HTTP/1.1 connection protocol for a specific endpoint:
 
 ```json
 {
@@ -1028,9 +1033,9 @@ As a workaround, use Host Filtering Middleware. Host Filtering Middleware is pro
 
 :::code language="csharp" source="kestrel/samples-snapshot/2.x/KestrelSample/Program.cs" id="snippet_Program" highlight="9":::
 
-Host Filtering Middleware is disabled by default. To enable the middleware, define an `AllowedHosts` key in *appsettings.json*/*appsettings.\<EnvironmentName>.json*. The value is a semicolon-delimited list of host names without port numbers:
+Host Filtering Middleware is disabled by default. To enable the middleware, define an `AllowedHosts` key in `appsettings.json`/`appsettings.{Environment}.json`. The value is a semicolon-delimited list of host names without port numbers:
 
-*appsettings.json*:
+`appsettings.json`:
 
 ```json
 {

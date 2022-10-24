@@ -3,16 +3,16 @@ title: Part 2, add a model
 author: rick-anderson
 description: Part 2 of tutorial series on Razor Pages. In this section, model classes are added.
 ms.author: riande
-ms.date: 11/12/2021
+ms.date: 06/03/2022
+monikerRange: '>= aspnetcore-3.1'
 ms.custom: contperf-fy21q2
-no-loc: [Home, Privacy, Index, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: tutorials/razor-pages/model
 ---
 # Part 2, add a model to a Razor Pages app in ASP.NET Core
 
 By [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 <!-- In the next update on the CLI version, let the scaffolder do the same work the VS driven scaffolder does. That is, create the DB context, etc -->
 
@@ -24,8 +24,8 @@ The model classes are known as POCO classes (from "**P**lain-**O**ld **C**LR **O
 
 # [Visual Studio](#tab/visual-studio)
 
-1. In **Solution Explorer**, right-click the *RazorPagesMovie* project > **Add** > **New Folder**. Name the folder *Models*.
-1. Right-click the *Models* folder. Select **Add** > **Class**. Name the class *Movie*.
+1. In **Solution Explorer**, right-click the *RazorPagesMovie* project > **Add** > **New Folder**. Name the folder `Models`.
+1. Right-click the `Models` folder. Select **Add** > **Class**. Name the class *Movie*.
 1. Add the following properties to the `Movie` class:
 
    [!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Models/Movie.cs?name=snippet1)]
@@ -40,8 +40,8 @@ The `Movie` class contains:
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-1. Add a folder named *Models*.
-1. Add a class to the *Models* folder named *Movie.cs*.
+1. Add a folder named `Models`.
+1. Add a class to the `Models` folder named `Movie.cs`.
 
 Add the following properties to the `Movie` class:
 
@@ -63,8 +63,8 @@ The `Movie` class contains:
 
 # [Visual Studio for Mac](#tab/visual-studio-mac)
 
-1. In the **Solution Tool Window**, right-click the *RazorPagesMovie* project, and then select **Add** > **New Folder...**. Name the folder *Models*.
-1. Right-click the *Models* folder, and then select **Add** > **New File...**.
+1. In the **Solution Tool Window**, right-click the *RazorPagesMovie* project, and then select **Add** > **New Folder...**. Name the folder `Models`.
+1. Right-click the `Models` folder, and then select **Add** > **New File...**.
 1. In the **New File** dialog:
    1. Select **General** in the left pane.
    1. Select **Empty Class** in the center pane.
@@ -98,7 +98,6 @@ In this section, the movie model is scaffolded. That is, the scaffolding tool pr
    1. From the **Tools** menu, select **NuGet Package Manager** > **Manage NuGet Packages for Solution**
       ![NuGet Package Manager - manage](model/_static/6/nugetMP.png)
    1. Select the **Browse** tab.
-   1. Check **Include prerelease**
    1. Enter `Microsoft.EntityFrameworkCore.Design` and select it from the list.
    1. Check **Project** and then Select **Install**
    1. Select **I Accept** in the **License Acceptance** dialog.
@@ -126,14 +125,14 @@ In this section, the movie model is scaffolded. That is, the scaffolding tool pr
    
    If you get an error message that says you need to install the `Microsoft.EntityFrameworkCore.SqlServer` package, repeat the steps starting with **Add** > **New Scaffolded Item**.
 
-The *appsettings.json* file is updated with the connection string used to connect to a local database.
+The `appsettings.json` file is updated with the connection string used to connect to a local database.
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Open a command shell to the project directory, which contains the *Program.cs*, *Startup.cs*, and *.csproj* files. Run the following command:
+* Open a command shell to the project directory, which contains the `Program.cs` and `.csproj` files. Run the following command:
 
   ```dotnetcli
-  dotnet-aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages/Movies --referenceScriptLibraries -sqlite
+  dotnet aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages/Movies --referenceScriptLibraries -sqlite
   ```
 
 <a name="codegenerator"></a>
@@ -147,10 +146,10 @@ The following table details the ASP.NET Core code generator options.
 | `-outDir` | The relative output folder path to create the views. |
 | `--referenceScriptLibraries` | Adds `_ValidationScriptsPartial` to Edit and Create pages |
 
-Use the `-h` option to get help on the `dotnet-aspnet-codegenerator razorpage` command:
+Use the `-h` option to get help on the `dotnet aspnet-codegenerator razorpage` command:
 
 ```dotnetcli
-dotnet-aspnet-codegenerator razorpage -h
+dotnet aspnet-codegenerator razorpage -h
 ```
 
 For more information, see [dotnet-aspnet-codegenerator](xref:fundamentals/tools/dotnet-aspnet-codegenerator).
@@ -178,9 +177,9 @@ For more information, see [dotnet-aspnet-codegenerator](xref:fundamentals/tools/
 
    ![Add Razor Pages on Mac](model/_static/arpMac.png)
 
-The *appsettings.json* file is updated with the connection string used to connect to a local database.
+The `appsettings.json` file is updated with the connection string used to connect to a local database.
 
-[!INCLUDE[](~/includes/RP/sqlitedev.md)]
+[!INCLUDE[](~/includes/DevProdSQLite.md)]
 
 ---
 
@@ -189,20 +188,20 @@ The *appsettings.json* file is updated with the connection string used to connec
 The scaffold process creates the following files:
 
 * *Pages/Movies*: Create, Delete, Details, Edit, and Index.
-* *Data/RazorPagesMovieContext.cs*
+* `Data/RazorPagesMovieContext.cs`
 
 The created files are explained in the next tutorial.
 
-The scaffold process adds the following highlighted code to the *Program.cs* file:
+The scaffold process adds the following highlighted code to the `Program.cs` file:
 
 # [Visual Studio](#tab/visual-studio)
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Program.cs?name=snippet_all&highlight=1-3,9-10)]
+[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Program.cs?name=snippet_all&highlight=1-3,8-9)]
 # [Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Program.cs?name=snippet_all_sl&highlight=1-3,9-10)]
+[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Program.cs?name=snippet_all_sl&highlight=1-3,8-9)]
 
 ---
 
-The *Program.cs* changes are explained later in this tutorial.
+The `Program.cs` changes are explained later in this tutorial.
 
 <a name="pmc6"></a>
 
@@ -233,10 +232,14 @@ In this section, the **Package Manager Console** (PMC) window is used to:
    ```
 
 # [Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
+* In the **Solution Tool Window**, right-click the *RazorPagesMovie* project, and then select **Open in Terminal**. 
+
+  The **Terminal** window opens with the command prompt at the project directory, which contains the Program.cs and .csproj files.
 
 * Run the following .NET CLI commands:
 
   ```dotnetcli
+  dotnet tool install --global dotnet-ef
   dotnet ef migrations add InitialCreate
   dotnet ef database update
   ```
@@ -246,21 +249,21 @@ In this section, the **Package Manager Console** (PMC) window is used to:
 
 ---
 
-For SQL Server, the preceding commands generate the following warning:
+The preceding commands install [the Entity Framework Core tools](/ef/core/get-started/overview/install#get-the-entity-framework-core-tools) and run the `migrations` command to generate code that creates the initial database schema.
 
- > No type was specified for the decimal column 'Price' on entity type 'Movie'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
+The following warning is displayed, which is addressed in a later step:
 
-Ignore the warning, as it will be addressed in a later step.
+> No type was specified for the decimal column 'Price' on entity type 'Movie'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'.
 
 The `migrations` command generates code to create the initial database schema. The schema is based on the model specified in `DbContext`. The `InitialCreate` argument is used to name the migrations. Any name can be used, but by convention a name is selected that describes the migration.
 
-The `update` command runs the `Up` method in migrations that have not been applied. In this case, `update` runs the `Up` method in the *Migrations/\<time-stamp>_InitialCreate.cs* file, which creates the database.
+The `update` command runs the `Up` method in migrations that have not been applied. In this case, `update` runs the `Up` method in the `Migrations/<time-stamp>_InitialCreate.cs` file, which creates the database.
 
 ### Examine the context registered with dependency injection
 
 ASP.NET Core is built with [dependency injection](xref:fundamentals/dependency-injection). Services, such as the EF Core database context, are registered with dependency injection during application startup. Components that require these services (such as Razor Pages) are provided via constructor parameters. The constructor code that gets a database context instance is shown later in the tutorial.
 
-The scaffolding tool automatically created a database context and registered it with the dependency injection container. The following highlighted code is added to the *Program.cs* file by the scaffolder:
+The scaffolding tool automatically created a database context and registered it with the dependency injection container. The following highlighted code is added to the `Program.cs` file by the scaffolder:
 
 # [Visual Studio](#tab/visual-studio)
 
@@ -277,61 +280,15 @@ The data context `RazorPagesMovieContext`:
 * Specifies which entities are included in the data model.
 * Coordinates EF Core functionality, such as Create, Read, Update and Delete, for the `Movie` model.
 
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Data/RazorPagesMovieContext.cs?name=snippet_1)]
+[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Data/RazorPagesMovieContext.cs)]
 
 The preceding code creates a [DbSet\<Movie>](xref:Microsoft.EntityFrameworkCore.DbSet%601) property for the entity set. In Entity Framework terminology, an entity set typically corresponds to a database table. An entity corresponds to a row in the table.
 
-The name of the connection string is passed in to the context by calling a method on a [DbContextOptions](xref:Microsoft.EntityFrameworkCore.DbContextOptions) object. For local development, the [Configuration system](xref:fundamentals/configuration/index) reads the connection string from the *appsettings.json* file.
+The name of the connection string is passed in to the context by calling a method on a [DbContextOptions](xref:Microsoft.EntityFrameworkCore.DbContextOptions) object. For local development, the [Configuration system](xref:fundamentals/configuration/index) reads the connection string from the `appsettings.json` file.
 
 <a name="test"></a>
 
-## Build the app
-
-Build the app. The compiler generates several `nullable` warnings. See [this GitHub issue](https://github.com/dotnet/Scaffolding/issues/1594),  [Nullable reference types (NRTs) and .NET compiler null-state static analysis](xref:migration/50-to-60#review-breaking-changes), and [Nullable reference types](/dotnet/csharp/nullable-references) for more information.
-
-### Fix the warning messages
-
-In this section, you can either disable nullable warnings or fix the scaffolded code. To eliminate the warnings from nullable reference types, remove the following line from the *RazorPagesMovie .csproj* file:
-
-```xml
-<Nullable>enable</Nullable>
-```
-
-Alternatively, fix the scaffolded code. The `RazorPagesMovieContext` generates the following warning:
-
-> Warning CS8618 Non-nullable property 'Movie' must contain a non-null value when exiting constructor. Consider declaring the property as nullable.
-
-To fix the warning, apply the suggestion and declare the `Movie` property [nullable](/dotnet/csharp/nullable-references).
-
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Data/RazorPagesMovieContext.cs?name=snippet_fix)]
-
-The `?` declares the property nullable.
-
-An alternative approach is to disable the CS8618 [warning with pragma](/dotnet/fundamentals/code-analysis/suppress-warnings) statements:
-
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie60/Data/RazorPagesMovieContext.cs?name=snippet_prag)]
-
-For the warnings in the Razor Pages C# code behind files, use the [pragma](/dotnet/csharp/language-reference/preprocessor-directives#pragmas) C# preprocessor directive to disable warnings. For example, use the following highlighted code in the *Pages/Movies/Index.cshtml.cs* file:
-
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/snapshot_sample6/Pages/Movies/Index.cshtml.cs?name=snippet&highlight=3-4,21,22)]
-
-The *Pages/Movies/Delete.cshtml.cs* file requires the following `pragma` statements:
-
-```csharp
-#pragma warning disable CS8618
-#pragma warning disable CS8601
-#pragma warning disable CS8602
-#pragma warning disable CS8604
-// Class
-#pragma warning restore CS8618
-#pragma warning restore CS8601
-#pragma warning restore CS8602
-#pragma warning restore CS8604
-```
-
-Ignore NU1603 package mismatch warnings, they will be fixed when .NET 6 is released.
-
-### Test the app
+## Test the app
 
 1. Run the app and append `/Movies` to the URL in the browser (`http://localhost:port/movies`).
 
@@ -344,7 +301,7 @@ Ignore NU1603 package mismatch warnings, they will be fixed when .NET 6 is relea
 
    You missed the [migrations step](#pmc6).
 
-1. Test the **Create** link.
+1. Test the **Create New** link.
 
    ![Create page](model/_static/conan5.png)
 
@@ -365,9 +322,9 @@ If you run into a problem you can't resolve, compare your code to the completed 
 > [Previous: Get Started](xref:tutorials/razor-pages/razor-pages-start)
 > [Next: Scaffolded Razor Pages](xref:tutorials/razor-pages/page)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="= aspnetcore-5.0"
+:::moniker range="= aspnetcore-5.0"
 
 <!-- In the next update on the CLI version, let the scaffolder do the same work the VS driven scaffolder does. That is, create the DB context, etc -->
 
@@ -381,8 +338,8 @@ The model classes are known as POCO classes (from "**P**lain-**O**ld **C**LR **O
 
 # [Visual Studio](#tab/visual-studio)
 
-1. In **Solution Explorer**, right-click the *RazorPagesMovie* project > **Add** > **New Folder**. Name the folder *Models*.
-1. Right-click the *Models* folder. Select **Add** > **Class**. Name the class *Movie*.
+1. In **Solution Explorer**, right-click the *RazorPagesMovie* project > **Add** > **New Folder**. Name the folder `Models`.
+1. Right-click the `Models` folder. Select **Add** > **Class**. Name the class *Movie*.
 1. Add the following properties to the `Movie` class:
 
    [!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie22/Models/Movie.cs?name=snippet1)]
@@ -397,8 +354,8 @@ The `Movie` class contains:
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-1. Add a folder named *Models*.
-1. Add a class to the *Models* folder named *Movie.cs*.
+1. Add a folder named `Models`.
+1. Add a class to the `Models` folder named `Movie.cs`.
 
 Add the following properties to the `Movie` class:
 
@@ -420,8 +377,8 @@ The `Movie` class contains:
 
 # [Visual Studio for Mac](#tab/visual-studio-mac)
 
-1. In the **Solution Tool Window**, control-click the *RazorPagesMovie* project, and then select **Add** > **New Folder...**. Name the folder *Models*.
-1. Control-click the *Models* folder, and then select **Add** > **New File...**.
+1. In the **Solution Tool Window**, control-click the *RazorPagesMovie* project, and then select **Add** > **New Folder...**. Name the folder `Models`.
+1. Control-click the `Models` folder, and then select **Add** > **New File...**.
 1. In the **New File** dialog:
    1. Select **General** in the left pane.
    1. Select **Empty Class** in the center pane.
@@ -471,14 +428,14 @@ In this section, the movie model is scaffolded. That is, the scaffolding tool pr
 
    ![Add Razor Pages](model/_static/3/arp.png)
 
-The *appsettings.json* file is updated with the connection string used to connect to a local database.
+The `appsettings.json` file is updated with the connection string used to connect to a local database.
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Open a command shell to the project directory, which contains the *Program.cs*, *Startup.cs*, and *.csproj* files. Run the following command:
+* Open a command shell to the project directory, which contains the `Program.cs`, `Startup.cs`, and `.csproj` files. Run the following command:
 
   ```dotnetcli
-  dotnet-aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages/Movies --referenceScriptLibraries -sqlite
+  dotnet aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages/Movies --referenceScriptLibraries -sqlite
   ```
 
 <a name="codegenerator"></a>
@@ -492,10 +449,10 @@ The following table details the ASP.NET Core code generator options.
 | `-outDir` | The relative output folder path to create the views. |
 | `--referenceScriptLibraries` | Adds `_ValidationScriptsPartial` to Edit and Create pages |
 
-Use the `-h` option to get help on the `dotnet-aspnet-codegenerator razorpage` command:
+Use the `-h` option to get help on the `dotnet aspnet-codegenerator razorpage` command:
 
 ```dotnetcli
-dotnet-aspnet-codegenerator razorpage -h
+dotnet aspnet-codegenerator razorpage -h
 ```
 
 For more information, see [dotnet-aspnet-codegenerator](xref:fundamentals/tools/dotnet-aspnet-codegenerator).
@@ -522,7 +479,7 @@ For more information, see [dotnet-aspnet-codegenerator](xref:fundamentals/tools/
 
    ![Add Razor Pages on Mac](model/_static/5/arpMac.png)
 
-The *appsettings.json* file is updated with the connection string used to connect to a local database.
+The `appsettings.json` file is updated with the connection string used to connect to a local database.
 
 [!INCLUDE[](~/includes/RP/sqlitedev.md)]
 
@@ -533,11 +490,11 @@ The *appsettings.json* file is updated with the connection string used to connec
 The scaffold process creates the following files:
 
 * *Pages/Movies*: Create, Delete, Details, Edit, and Index.
-* *Data/RazorPagesMovieContext.cs*
+* `Data/RazorPagesMovieContext.cs`
 
 #### Updated files
 
-* *Startup.cs*
+* `Startup.cs`
 
 The created and updated files are explained in the next section.
 
@@ -588,7 +545,7 @@ Ignore the warning, as it will be addressed in a later step.
 
 The `migrations` command generates code to create the initial database schema. The schema is based on the model specified in `DbContext`. The `InitialCreate` argument is used to name the migrations. Any name can be used, but by convention a name is selected that describes the migration.
 
-The `update` command runs the `Up` method in migrations that have not been applied. In this case, `update` runs the `Up` method in the *Migrations/\<time-stamp>_InitialCreate.cs* file, which creates the database.
+The `update` command runs the `Up` method in migrations that have not been applied. In this case, `update` runs the `Up` method in the `Migrations/<time-stamp>_InitialCreate.cs` file, which creates the database.
 
 # [Visual Studio](#tab/visual-studio)
 
@@ -608,7 +565,7 @@ The `RazorPagesMovieContext` coordinates EF Core functionality, such as Create, 
 
 The preceding code creates a [DbSet\<Movie>](xref:Microsoft.EntityFrameworkCore.DbSet%601) property for the entity set. In Entity Framework terminology, an entity set typically corresponds to a database table. An entity corresponds to a row in the table.
 
-The name of the connection string is passed in to the context by calling a method on a [DbContextOptions](xref:Microsoft.EntityFrameworkCore.DbContextOptions) object. For local development, the [Configuration system](xref:fundamentals/configuration/index) reads the connection string from the *appsettings.json* file.
+The name of the connection string is passed in to the context by calling a method on a [DbContextOptions](xref:Microsoft.EntityFrameworkCore.DbContextOptions) object. For local development, the [Configuration system](xref:fundamentals/configuration/index) reads the connection string from the `appsettings.json` file.
 
 # [Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
 
@@ -650,9 +607,9 @@ The next tutorial explains the files created by scaffolding.
 > [Previous: Get Started](xref:tutorials/razor-pages/razor-pages-start)
 > [Next: Scaffolded Razor Pages](xref:tutorials/razor-pages/page)
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
 <!-- In the next update on the CLI version, let the scaffolder do the same work the VS driven scaffolder does. That is, create the DB context, etc -->
 
@@ -666,9 +623,9 @@ The model classes are known as POCO classes (from "plain-old CLR objects") becau
 
 # [Visual Studio](#tab/visual-studio)
 
-Right-click the **RazorPagesMovie** project > **Add** > **New Folder**. Name the folder *Models*.
+Right-click the **RazorPagesMovie** project > **Add** > **New Folder**. Name the folder `Models`.
 
-Right-click the *Models* folder. Select **Add** > **Class**. Name the class **Movie**.
+Right-click the `Models` folder. Select **Add** > **Class**. Name the class **Movie**.
 
 Add the following properties to the `Movie` class:
 
@@ -686,8 +643,8 @@ The `Movie` class contains:
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
-* Add a folder named *Models*.
-* Add a class to the *Models* folder named *Movie.cs*.
+* Add a folder named `Models`.
+* Add a class to the `Models` folder named `Movie.cs`.
 
 Add the following properties to the `Movie` class:
 
@@ -722,7 +679,7 @@ The preceding code creates a `DbSet` property for the entity set. In Entity Fram
 
 ### Add a database connection string
 
-Add a connection string to the *appsettings.json* file as shown in the following highlighted code:
+Add a connection string to the `appsettings.json` file as shown in the following highlighted code:
 
 [!code-json[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30/appsettings_SQLite.json?highlight=10-12)]
 
@@ -730,7 +687,7 @@ Add a connection string to the *appsettings.json* file as shown in the following
 
 ### Register the database context
 
-Add the following `using` statements at the top of *Startup.cs*:
+Add the following `using` statements at the top of `Startup.cs`:
 
 ```csharp
 using RazorPagesMovie.Data;
@@ -743,8 +700,8 @@ Register the database context with the [dependency injection](xref:fundamentals/
 
 # [Visual Studio for Mac](#tab/visual-studio-mac)
 
-* In the **Solution Tool Window**, control-click the **RazorPagesMovie** project, and then select **Add** > **New Folder...**. Name the folder *Models*.
-* Right-click the *Models* folder, and then select **Add** > **New File...**.
+* In the **Solution Tool Window**, control-click the **RazorPagesMovie** project, and then select **Add** > **New Folder...**. Name the folder `Models`.
+* Right-click the `Models` folder, and then select **Add** > **New File...**.
 * In the **New File** dialog:
 
   * Select **General** in the left pane.
@@ -791,30 +748,30 @@ In the **Add Scaffold** dialog, select **Razor Pages using Entity Framework (CRU
 Complete the **Add Razor Pages using Entity Framework (CRUD)** dialog:
 
 * In the **Model class** drop down, select **Movie (RazorPagesMovie.Models)**.
-* In the **Data context class** row, select the **+** (plus) sign and change the generated name from RazorPagesMovie.**Models**.RazorPagesMovieContext to RazorPagesMovie.**Data**.RazorPagesMovieContext. [This change](https://developercommunity.visualstudio.com/content/problem/652166/aspnet-core-ef-scaffolder-uses-incorrect-namespace.html) is not required. It creates the database context class with the correct namespace.
+* In the **Data context class** row, select the **+** (plus) sign and change the generated name from RazorPagesMovie.*`Models`*.RazorPagesMovieContext to RazorPagesMovie.**Data**.RazorPagesMovieContext. [This change](https://developercommunity.visualstudio.com/content/problem/652166/aspnet-core-ef-scaffolder-uses-incorrect-namespace.html) is not required. It creates the database context class with the correct namespace.
 * Select **Add**.
 
 ![Add Razor Pages on VScode](model/_static/3/arp.png)
 
-The *appsettings.json* file is updated with the connection string used to connect to a local database.
+The `appsettings.json` file is updated with the connection string used to connect to a local database.
 
 # [Visual Studio Code](#tab/visual-studio-code)
 
 <!--  Until https://github.com/aspnet/Scaffolding/issues/582 is fixed windows needs backslash or the namespace is namespace RazorPagesMovie.Pages_Movies rather than namespace RazorPagesMovie.Pages.Movies
 -->
 
-* Open a command window in the project directory, which contains the *Program.cs*, *Startup.cs*, and *.csproj* files.
+* Open a command window in the project directory, which contains the `Program.cs`, `Startup.cs`, and `.csproj` files.
 
 * **For Windows**: Run the following command:
 
   ```dotnetcli
-  dotnet-aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages\Movies --referenceScriptLibraries
+  dotnet aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages\Movies --referenceScriptLibraries
   ```
 
 * **For macOS and Linux**: Run the following command:
 
   ```dotnetcli
-  dotnet-aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages/Movies --referenceScriptLibraries
+  dotnet aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovieContext -udl -outDir Pages/Movies --referenceScriptLibraries
   ```
 
 <a name="codegenerator"></a>
@@ -828,10 +785,10 @@ The following table details the ASP.NET Core code generator options:
 | `-outDir` | The relative output folder path to create the views. |
 | `--referenceScriptLibraries` | Adds `_ValidationScriptsPartial` to Edit and Create pages |
 
-Use the `-h` option to get help on the `dotnet-aspnet-codegenerator razorpage` command:
+Use the `-h` option to get help on the `dotnet aspnet-codegenerator razorpage` command:
 
 ```dotnetcli
-dotnet-aspnet-codegenerator razorpage -h
+dotnet aspnet-codegenerator razorpage -h
 ```
 
 For more information, see [dotnet-aspnet-codegenerator](xref:fundamentals/tools/dotnet-aspnet-codegenerator).
@@ -865,7 +822,7 @@ Complete the **Add Razor Pages using Entity Framework (CRUD)** dialog:
 
 ![Add Razor Page on Visual Studio for Mac](model/_static/arpMac.png)
 
-The *appsettings.json* file is updated with the connection string used to connect to a local database.
+The `appsettings.json` file is updated with the connection string used to connect to a local database.
 
 ### Add EF tools
 
@@ -892,11 +849,11 @@ When SQLite is selected, the template generated code is ready for development. T
 The scaffold process creates and updates the following files:
 
 * *Pages/Movies*: Create, Delete, Details, Edit, and Index.
-* *Data/RazorPagesMovieContext.cs*
+* `Data/RazorPagesMovieContext.cs`
 
 ### Updated
 
-* *Startup.cs*
+* `Startup.cs`
 
 The created and updated files are explained in the next section.
 
@@ -905,11 +862,11 @@ The created and updated files are explained in the next section.
 The scaffold process creates and updates the following files:
 
 * *Pages/Movies*: Create, Delete, Details, Edit, and Index.
-* *Data/RazorPagesMovieContext.cs*
+* `Data/RazorPagesMovieContext.cs`
 
 ### Updated
 
-* *Startup.cs*
+* `Startup.cs`
 
 The created and updated files are explained in the next section.
 
@@ -964,15 +921,15 @@ Ignore the warning, as it will be addressed in a later step.
 
 The migrations command generates code to create the initial database schema. The schema is based on the model specified in `DbContext`. The `InitialCreate` argument is used to name the migrations. Any name can be used, but by convention a name is selected that describes the migration.
 
-The `update` command runs the `Up` method in migrations that have not been applied. In this case, `update` runs the `Up` method in  *Migrations/\<time-stamp>_InitialCreate.cs* file, which creates the database.
+The `update` command runs the `Up` method in migrations that have not been applied. In this case, `update` runs the `Up` method in  `Migrations/<time-stamp>_InitialCreate.cs` file, which creates the database.
 
 # [Visual Studio](#tab/visual-studio)
 
 ### Examine the context registered with dependency injection
 
-ASP.NET Core is built with [dependency injection](xref:fundamentals/dependency-injection). Services, such as the EF Core database context context, are registered with dependency injection during application startup. Components that require these services, such as Razor Pages, are provided via constructor parameters. The constructor code that gets a database context context instance is shown later in the tutorial.
+ASP.NET Core is built with [dependency injection](xref:fundamentals/dependency-injection). Services, such as the EF Core database context, are registered with dependency injection during application startup. Components that require these services, such as Razor Pages, are provided via constructor parameters. The constructor code that gets a database context instance is shown later in the tutorial.
 
-The scaffolding tool automatically created a database context context and registered it with the dependency injection container.
+The scaffolding tool automatically created a database context and registered it with the dependency injection container.
 
 Examine the `Startup.ConfigureServices` method. The highlighted line was added by the scaffolder:
 
@@ -982,9 +939,9 @@ The `RazorPagesMovieContext` coordinates EF Core functionality, such as Create, 
 
 [!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie30/Data/RazorPagesMovieContext.cs)]
 
-The preceding code creates a [DbSet\<Movie>](/dotnet/api/microsoft.entityframeworkcore.dbset-1) property for the entity set. In Entity Framework terminology, an entity set typically corresponds to a database table. An entity corresponds to a row in the table.
+The preceding code creates a [DbSet\<Movie>](xref:Microsoft.EntityFrameworkCore.DbSet%601) property for the entity set. In Entity Framework terminology, an entity set typically corresponds to a database table. An entity corresponds to a row in the table.
 
-The name of the connection string is passed in to the context by calling a method on a [DbContextOptions](xref:Microsoft.EntityFrameworkCore.DbContextOptions) object. For local development, the [Configuration system](xref:fundamentals/configuration/index) reads the connection string from the *appsettings.json* file.
+The name of the connection string is passed in to the context by calling a method on a [DbContextOptions](xref:Microsoft.EntityFrameworkCore.DbContextOptions) object. For local development, the [Configuration system](xref:fundamentals/configuration/index) reads the connection string from the `appsettings.json` file.
 
 # [Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
 
@@ -1024,4 +981,4 @@ The next tutorial explains the files created by scaffolding.
 > [Previous: Get Started](xref:tutorials/razor-pages/razor-pages-start)
 > [Next: Scaffolded Razor Pages](xref:tutorials/razor-pages/page)
 
-::: moniker-end
+:::moniker-end

@@ -3,19 +3,18 @@ title: Routing to controller actions in ASP.NET Core
 author: rick-anderson
 description: Learn how ASP.NET Core MVC uses Routing Middleware to match URLs of incoming requests and map them to actions.
 ms.author: riande
-ms.date: 9/15/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 04/08/2022
 uid: mvc/controllers/routing
 ---
 # Routing to controller actions in ASP.NET Core
 
 By [Ryan Nowak](https://github.com/rynowak), [Kirk Larkin](https://twitter.com/serpent5), and [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-::: moniker range=">= aspnetcore-6.0"
+:::moniker range=">= aspnetcore-6.0"
 
 ASP.NET Core controllers use the Routing [middleware](xref:fundamentals/middleware/index) to match the URLs of incoming requests and map them to [actions](#action).  Route templates:
 
-* Are defined at startup in *Program.cs* or in attributes.
+* Are defined at startup in `Program.cs` or in attributes.
 * Describe how URL paths are matched to [actions](#action).
 * Are used to generate URLs for links. The generated links are typically returned in responses.
 
@@ -55,7 +54,7 @@ The route template `"{controller=Home}/{action=Index}/{id?}"`:
 * `/Products/Details/5` model binds the value of `id = 5` to set the `id` parameter to `5`. See [Model Binding](xref:mvc/models/model-binding) for more details.
 * `{controller=Home}` defines `Home` as the default `controller`.
 * `{action=Index}` defines `Index` as the default `action`.
-*  The `?` character in `{id?}` defines `id` as optional.
+* The `?` character in `{id?}` defines `id` as optional.
   * Default and optional route parameters don't need to be present in the URL path for a match. See [Route Template Reference](xref:fundamentals/routing#route-template-reference) for a detailed description of route template syntax.
 * Matches the URL path `/`.
 * Produces the route values `{ controller = Home, action = Index }`.
@@ -65,7 +64,7 @@ The values for `controller` and `action` make use of the default values. `id` do
 ```csharp
 public class HomeController : Controller
 {
-  public IActionResult Index() { ... }
+    public IActionResult Index() { ... }
 }
 ```
 
@@ -91,6 +90,8 @@ Replaces:
 >
 > * Call <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllers%2A> to map [attribute routed](#ar6) controllers.
 > * Call <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllerRoute%2A> or <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapAreaControllerRoute%2A>, to map both [conventionally routed](#cr6) controllers and [attribute routed](#ar6) controllers.
+>
+> Apps typically don't need to call `UseRouting` or `UseEndpoints`. <xref:Microsoft.AspNetCore.Builder.WebApplicationBuilder> configures a middleware pipeline that wraps middleware added in `Program.cs` with `UseRouting` and `UseEndpoints`. For more information, see <xref:fundamentals/routing>.
 
 <a name="routing-conventional-ref-label"></a>
 <a name="crd6"></a>
@@ -123,7 +124,7 @@ Using conventional routing with the default route allows creating the app withou
 * Makes the UI more predictable.
 
 > [!WARNING]
-> The `id` in the preceding code is defined as optional by the route template. Actions can execute without the optional ID provided as part of the URL. Generally, when`id` is omitted from the URL:
+> The `id` in the preceding code is defined as optional by the route template. Actions can execute without the optional ID provided as part of the URL. Generally, when `id` is omitted from the URL:
 >
 > * `id` is set to `0` by model binding.
 > * No entity is found in the database matching `id == 0`.
@@ -153,7 +154,7 @@ Enable [Logging](xref:fundamentals/logging/index) to see how the built-in routin
 
 ### Multiple conventional routes
 
-Multiple [conventional routes](#cr6) can be added inside `UseEndpoints` by adding more calls to <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllerRoute%2A> and <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapAreaControllerRoute%2A>. Doing so allows defining multiple conventions, or to adding conventional routes that are dedicated to a specific [action](#action), such as:
+Multiple [conventional routes](#cr6) can be configured by adding more calls to <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllerRoute%2A> and <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapAreaControllerRoute%2A>. Doing so allows defining multiple conventions, or to adding conventional routes that are dedicated to a specific [action](#action), such as:
 
 [!code-csharp[](routing/samples/6.x/main/Program.cs?name=snippet_mcr)]
 
@@ -257,7 +258,7 @@ Attribute routing uses a set of attributes to map actions directly to route temp
 
 [!code-csharp[](routing/samples/6.x/main/Program.cs?name=snippet_webapi)]
 
-In the preceding code, <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllers%2A> is called inside `UseEndpoints` to map attribute routed controllers.
+In the preceding code, <xref:Microsoft.AspNetCore.Builder.ControllerEndpointRouteBuilderExtensions.MapControllers%2A> is called to map attribute routed controllers.
 
 In the following example:
 
@@ -302,15 +303,16 @@ Using `page` as a route parameter with attribute routing is a common error. Doin
 The special parameter names are used by the URL generation to determine if a URL generation operation refers to a Razor Page or to a Controller.
 
 * The following keywords are reserved in the context of a Razor view or a Razor Page:
-   * `page`
-   * `using`
-   * `namespace`
-   * `inject`
-   * `section`
-   * `inherits`
-   * `model`
-   * `addTagHelper`
-   * `removeTagHelper`
+
+* `page`
+* `using`
+* `namespace`
+* `inject`
+* `section`
+* `inherits`
+* `model`
+* `addTagHelper`
+* `removeTagHelper`
 
 These keywords shouldn't be used for link generations, model bound parameters, or top level properties.
 
@@ -381,7 +383,7 @@ The `Products2ApiController.GetProduct(int)` action:
 * Is run with URL path like `/products2/3`
 * Isn't run with the URL path `/products2`.
 
-The [[Consumes]](<xref:Microsoft.AspNetCore.Mvc.ConsumesAttribute>) attribute allows an action to limit the supported request content types. For more information, see [Define supported request content types with the Consumes attribute](xref:web-api/index#consumes).
+The [[Consumes]](xref:Microsoft.AspNetCore.Mvc.ConsumesAttribute) attribute allows an action to limit the supported request content types. For more information, see [Define supported request content types with the Consumes attribute](xref:web-api/index#consumes).
 
  See [Routing](xref:fundamentals/routing) for a full description of route templates and related options.
 
@@ -484,13 +486,13 @@ For convenience, attribute routes support *token replacement* by enclosing a tok
 
 In the preceding code:
 
-  [!code-csharp[](routing/samples/6.x/main/Controllers/ProductsController.cs?name=snippet10)]
+[!code-csharp[](routing/samples/6.x/main/Controllers/ProductsController.cs?name=snippet10)]
 
-  * Matches `/Products0/List`
+* Matches `/Products0/List`
 
-  [!code-csharp[](routing/samples/6.x/main/Controllers/ProductsController.cs?name=snippet11)]
+[!code-csharp[](routing/samples/6.x/main/Controllers/ProductsController.cs?name=snippet11)]
 
-  * Matches `/Products0/Edit/{id}`
+* Matches `/Products0/Edit/{id}`
 
 Token replacement occurs as the last step of building the attribute routes. The preceding example behaves the same as the following code:
 
@@ -584,7 +586,7 @@ The preceding `Get` method returns `Order = 2, Template = api/MyTestApi`.
 
 The application model:
 
-* Is an object model created at startup in *Program.cs*.
+* Is an object model created at startup in `Program.cs`.
 * Contains all of the metadata used by ASP.NET Core to route and execute the actions in an app.
 
 The application model includes all of the data gathered from route attributes. The data from route attributes is provided by the `IRouteTemplateProvider` implementation. Conventions:
@@ -609,7 +611,7 @@ The `NamespaceRoutingConvention.Apply` method:
 * Does nothing if the controller is attribute routed.
 * Sets the controllers template based on the `namespace`, with the base `namespace` removed.
 
-The `NamespaceRoutingConvention` can be applied in *Program.cs*:
+The `NamespaceRoutingConvention` can be applied in `Program.cs`:
 
 [!code-csharp[](routing/samples/6.x/nsrc/Program.cs?name=snippet_nrc)]
 
@@ -846,9 +848,9 @@ Public methods on a controller, except those with the [NonAction](xref:Microsoft
 
 [!INCLUDE[](~/includes/dbg-route.md)]
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-6.0"
+:::moniker range="< aspnetcore-6.0"
 
 ASP.NET Core controllers use the Routing [middleware](xref:fundamentals/middleware/index) to match the URLs of incoming requests and map them to [actions](#action).  Route templates:
 
@@ -962,7 +964,7 @@ Using conventional routing with the default route allows creating the app withou
 * Makes the UI more predictable.
 
 > [!WARNING]
-> The `id` in the preceding code is defined as optional by the route template. Actions can execute without the optional ID provided as part of the URL. Generally, when`id` is omitted from the URL:
+> The `id` in the preceding code is defined as optional by the route template. Actions can execute without the optional ID provided as part of the URL. Generally, when `id` is omitted from the URL:
 >
 > * `id` is set to `0` by model binding.
 > * No entity is found in the database matching `id == 0`.
@@ -1220,7 +1222,7 @@ The `Products2ApiController.GetProduct(int)` action:
 * Is run with URL path like `/products2/3`
 * Isn't run with the URL path `/products2`.
 
-The [[Consumes]](<xref:Microsoft.AspNetCore.Mvc.ConsumesAttribute>) attribute allows an action to limit the supported request content types. For more information, see [Define supported request content types with the Consumes attribute](xref:web-api/index#consumes).
+The [[Consumes]](xref:Microsoft.AspNetCore.Mvc.ConsumesAttribute) attribute allows an action to limit the supported request content types. For more information, see [Define supported request content types with the Consumes attribute](xref:web-api/index#consumes).
 
  See [Routing](xref:fundamentals/routing) for a full description of route templates and related options.
 
@@ -1685,4 +1687,4 @@ Public methods on a controller, except those with the [NonAction](xref:Microsoft
 
 [!INCLUDE[](~/includes/dbg-route.md)]
 
-::: moniker-end
+:::moniker-end

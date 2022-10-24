@@ -1,15 +1,14 @@
 ---
-title: Introduction to ASP.NET Core SignalR
+title: Overview of ASP.NET Core SignalR
 author: bradygaster
 description: Learn how the ASP.NET Core SignalR library simplifies adding real-time functionality to apps.
 monikerRange: '>= aspnetcore-2.1'
 ms.author: bradyg
 ms.custom: mvc
-ms.date: 9/16/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
+ms.date: 03/07/2022
 uid: signalr/introduction
 ---
-# Introduction to ASP.NET Core SignalR
+# Overview of ASP.NET Core SignalR
 
 ## What is SignalR?
 
@@ -53,7 +52,7 @@ Hubs call client-side code by sending messages that contain the name and paramet
 
 ## Additional resources
 
-* [Microsoft Learn: Introduction to ASP.NET Core SignalR](/learn/modules/aspnet-core-signalr)
+* [Introduction to ASP.NET Core SignalR](/training/modules/aspnet-core-signalr)
 * [Get started with SignalR for ASP.NET Core](xref:tutorials/signalr)
 * [Supported Platforms](xref:signalr/supported-platforms)
 * [Hubs](xref:signalr/hubs)

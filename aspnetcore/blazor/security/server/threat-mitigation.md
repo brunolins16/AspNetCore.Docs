@@ -6,12 +6,13 @@ monikerRange: '>= aspnetcore-3.1'
 ms.author: riande
 ms.custom: mvc
 ms.date: 11/09/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: blazor/security/server/threat-mitigation
 ---
 # Threat mitigation guidance for ASP.NET Core Blazor Server
 
-::: moniker range=">= aspnetcore-6.0"
+This article explains how to mitigate security threats to Blazor Server apps.
+
+:::moniker range=">= aspnetcore-6.0"
 
 Blazor Server apps adopt a *stateful* data processing model, where the server and client maintain a long-lived relationship. The persistent state is maintained by a [circuit](xref:blazor/state-management), which can span connections that are also potentially long-lived.
 
@@ -77,7 +78,7 @@ Blazor clients establish a single connection per session and keep the connection
 
 By default, there's no limit on the number of connections per user for a Blazor Server app. If the app requires a connection limit, take one or more of the following approaches:
 
-* Require authentication, which naturally limits the ability of unauthorized users to connect to the app. For this scenario to be effective, users must be prevented from provisioning new users at will.
+* Require authentication, which naturally limits the ability of unauthorized users to connect to the app. For this scenario to be effective, users must be prevented from provisioning new users on demand.
 * Limit the number of connections per user. Limiting connections can be accomplished via the following approaches. Exercise care to allow legitimate users to access the app (for example, when a connection limit is established based on the client's IP address).
   * At the app level:
     * Endpoint routing extensibility.
@@ -91,7 +92,7 @@ By default, there's no limit on the number of connections per user for a Blazor 
 
 ## Denial of service (DoS) attacks
 
-Denial of service (DoS) attacks involve a client causing the server to exhaust one or more of its resources making the app unavailable. Blazor Server apps include default limits and rely on other ASP.NET Core and SignalR limits to protect against DoS attacks that are set on <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions>:
+[Denial of service (DoS) attacks](https://developer.mozilla.org/docs/Glossary/DOS_attack) involve a client causing the server to exhaust one or more of its resources making the app unavailable. Blazor Server apps include default limits and rely on other ASP.NET Core and SignalR limits that are set on <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions> to protect against DoS attacks:
 
 * <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions.DisconnectedCircuitMaxRetained?displayProperty=nameWithType>
 * <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions.DisconnectedCircuitRetentionPeriod?displayProperty=nameWithType>
@@ -151,7 +152,7 @@ For example:
 * A change event for a `<select>` could send a value that isn't within the options that the app presented to the client.
 * An `<input>` could send any text data to the server, bypassing client-side validation.
 
-The app must validate the data for any event that the app handles. The Blazor framework [forms components](xref:blazor/forms-validation) perform basic validations. If the app uses custom forms components, custom code must be written to validate event data as appropriate.
+The app must validate the data for any event that the app handles. The Blazor framework [forms components](xref:blazor/forms-and-input-components) perform basic validations. If the app uses custom forms components, custom code must be written to validate event data as appropriate.
 
 Blazor Server events are asynchronous, so multiple events can be dispatched to the server before the app has time to react by producing a new render. This has some security implications to consider. Limiting client actions in the app must be performed inside event handlers and not depend on the current rendered view state.
 
@@ -364,7 +365,7 @@ When a Blazor Server app session starts, the server performs basic validation of
 
 When a user selects a link on the client, the URL for the link is sent to the server, which determines what action to take. For example, the app may perform a client-side navigation or indicate to the browser to go to the new location.
 
-Components can also trigger navigation requests programatically through the use of <xref:Microsoft.AspNetCore.Components.NavigationManager>. In such scenarios, the app might perform a client-side navigation or indicate to the browser to go to the new location.
+Components can also trigger navigation requests programmatically through the use of <xref:Microsoft.AspNetCore.Components.NavigationManager>. In such scenarios, the app might perform a client-side navigation or indicate to the browser to go to the new location.
 
 Components must:
 
@@ -400,9 +401,9 @@ The following list of security considerations isn't comprehensive:
 * Ensure CORS settings are appropriate when enabling CORS or explicitly disable CORS for Blazor apps.
 * Test to ensure that the server-side limits for the Blazor app provide an acceptable user experience without unacceptable levels of risk.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
+:::moniker range=">= aspnetcore-5.0 < aspnetcore-6.0"
 
 Blazor Server apps adopt a *stateful* data processing model, where the server and client maintain a long-lived relationship. The persistent state is maintained by a [circuit](xref:blazor/state-management), which can span connections that are also potentially long-lived.
 
@@ -468,7 +469,7 @@ Blazor clients establish a single connection per session and keep the connection
 
 By default, there's no limit on the number of connections per user for a Blazor Server app. If the app requires a connection limit, take one or more of the following approaches:
 
-* Require authentication, which naturally limits the ability of unauthorized users to connect to the app. For this scenario to be effective, users must be prevented from provisioning new users at will.
+* Require authentication, which naturally limits the ability of unauthorized users to connect to the app. For this scenario to be effective, users must be prevented from provisioning new users on demand.
 * Limit the number of connections per user. Limiting connections can be accomplished via the following approaches. Exercise care to allow legitimate users to access the app (for example, when a connection limit is established based on the client's IP address).
   * At the app level:
     * Endpoint routing extensibility.
@@ -482,7 +483,7 @@ By default, there's no limit on the number of connections per user for a Blazor 
 
 ## Denial of service (DoS) attacks
 
-Denial of service (DoS) attacks involve a client causing the server to exhaust one or more of its resources making the app unavailable. Blazor Server apps include default limits and rely on other ASP.NET Core and SignalR limits to protect against DoS attacks that are set on <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions>:
+[Denial of service (DoS) attacks](https://developer.mozilla.org/docs/Glossary/DOS_attack) involve a client causing the server to exhaust one or more of its resources making the app unavailable. Blazor Server apps include default limits and rely on other ASP.NET Core and SignalR limits that are set on <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions> to protect against DoS attacks:
 
 * <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions.DisconnectedCircuitMaxRetained?displayProperty=nameWithType>
 * <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions.DisconnectedCircuitRetentionPeriod?displayProperty=nameWithType>
@@ -542,7 +543,7 @@ For example:
 * A change event for a `<select>` could send a value that isn't within the options that the app presented to the client.
 * An `<input>` could send any text data to the server, bypassing client-side validation.
 
-The app must validate the data for any event that the app handles. The Blazor framework [forms components](xref:blazor/forms-validation) perform basic validations. If the app uses custom forms components, custom code must be written to validate event data as appropriate.
+The app must validate the data for any event that the app handles. The Blazor framework [forms components](xref:blazor/forms-and-input-components) perform basic validations. If the app uses custom forms components, custom code must be written to validate event data as appropriate.
 
 Blazor Server events are asynchronous, so multiple events can be dispatched to the server before the app has time to react by producing a new render. This has some security implications to consider. Limiting client actions in the app must be performed inside event handlers and not depend on the current rendered view state.
 
@@ -755,7 +756,7 @@ When a Blazor Server app session starts, the server performs basic validation of
 
 When a user selects a link on the client, the URL for the link is sent to the server, which determines what action to take. For example, the app may perform a client-side navigation or indicate to the browser to go to the new location.
 
-Components can also trigger navigation requests programatically through the use of <xref:Microsoft.AspNetCore.Components.NavigationManager>. In such scenarios, the app might perform a client-side navigation or indicate to the browser to go to the new location.
+Components can also trigger navigation requests programmatically through the use of <xref:Microsoft.AspNetCore.Components.NavigationManager>. In such scenarios, the app might perform a client-side navigation or indicate to the browser to go to the new location.
 
 Components must:
 
@@ -791,9 +792,9 @@ The following list of security considerations isn't comprehensive:
 * Ensure CORS settings are appropriate when enabling CORS or explicitly disable CORS for Blazor apps.
 * Test to ensure that the server-side limits for the Blazor app provide an acceptable user experience without unacceptable levels of risk.
 
-::: moniker-end
+:::moniker-end
 
-::: moniker range="< aspnetcore-5.0"
+:::moniker range="< aspnetcore-5.0"
 
 Blazor Server apps adopt a *stateful* data processing model, where the server and client maintain a long-lived relationship. The persistent state is maintained by a [circuit](xref:blazor/state-management), which can span connections that are also potentially long-lived.
 
@@ -859,7 +860,7 @@ Blazor clients establish a single connection per session and keep the connection
 
 By default, there's no limit on the number of connections per user for a Blazor Server app. If the app requires a connection limit, take one or more of the following approaches:
 
-* Require authentication, which naturally limits the ability of unauthorized users to connect to the app. For this scenario to be effective, users must be prevented from provisioning new users at will.
+* Require authentication, which naturally limits the ability of unauthorized users to connect to the app. For this scenario to be effective, users must be prevented from provisioning new users on demand.
 * Limit the number of connections per user. Limiting connections can be accomplished via the following approaches. Exercise care to allow legitimate users to access the app (for example, when a connection limit is established based on the client's IP address).
   * At the app level:
     * Endpoint routing extensibility.
@@ -873,7 +874,7 @@ By default, there's no limit on the number of connections per user for a Blazor 
 
 ## Denial of service (DoS) attacks
 
-Denial of service (DoS) attacks involve a client causing the server to exhaust one or more of its resources making the app unavailable. Blazor Server apps include default limits and rely on other ASP.NET Core and SignalR limits to protect against DoS attacks that are set on <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions>:
+[Denial of service (DoS) attacks](https://developer.mozilla.org/docs/Glossary/DOS_attack) involve a client causing the server to exhaust one or more of its resources making the app unavailable. Blazor Server apps include default limits and rely on other ASP.NET Core and SignalR limits that are set on <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions> to protect against DoS attacks:
 
 * <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions.DisconnectedCircuitMaxRetained?displayProperty=nameWithType>
 * <xref:Microsoft.AspNetCore.Components.Server.CircuitOptions.DisconnectedCircuitRetentionPeriod?displayProperty=nameWithType>
@@ -933,7 +934,7 @@ For example:
 * A change event for a `<select>` could send a value that isn't within the options that the app presented to the client.
 * An `<input>` could send any text data to the server, bypassing client-side validation.
 
-The app must validate the data for any event that the app handles. The Blazor framework [forms components](xref:blazor/forms-validation) perform basic validations. If the app uses custom forms components, custom code must be written to validate event data as appropriate.
+The app must validate the data for any event that the app handles. The Blazor framework [forms components](xref:blazor/forms-and-input-components) perform basic validations. If the app uses custom forms components, custom code must be written to validate event data as appropriate.
 
 Blazor Server events are asynchronous, so multiple events can be dispatched to the server before the app has time to react by producing a new render. This has some security implications to consider. Limiting client actions in the app must be performed inside event handlers and not depend on the current rendered view state.
 
@@ -1146,7 +1147,7 @@ When a Blazor Server app session starts, the server performs basic validation of
 
 When a user selects a link on the client, the URL for the link is sent to the server, which determines what action to take. For example, the app may perform a client-side navigation or indicate to the browser to go to the new location.
 
-Components can also trigger navigation requests programatically through the use of <xref:Microsoft.AspNetCore.Components.NavigationManager>. In such scenarios, the app might perform a client-side navigation or indicate to the browser to go to the new location.
+Components can also trigger navigation requests programmatically through the use of <xref:Microsoft.AspNetCore.Components.NavigationManager>. In such scenarios, the app might perform a client-side navigation or indicate to the browser to go to the new location.
 
 Components must:
 
@@ -1182,4 +1183,4 @@ The following list of security considerations isn't comprehensive:
 * Ensure CORS settings are appropriate when enabling CORS or explicitly disable CORS for Blazor apps.
 * Test to ensure that the server-side limits for the Blazor app provide an acceptable user experience without unacceptable levels of risk.
 
-::: moniker-end
+:::moniker-end

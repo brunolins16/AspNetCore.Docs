@@ -6,7 +6,6 @@ monikerRange: '>= aspnetcore-6.0'
 ms.author: wigodbe
 ms.custom: mvc
 ms.date: 08/06/2021
-no-loc: [Home, Privacy, Kestrel, appsettings.json, "ASP.NET Core Identity", cookie, Cookie, Blazor, "Blazor Server", "Blazor WebAssembly", "Identity", "Let's Encrypt", Razor, SignalR]
 uid: fundamentals/servers/kestrel/http3
 ---
 
@@ -19,7 +18,7 @@ uid: fundamentals/servers/kestrel/http3
 > 
 > For more information on preview feature support, see [the preview features supported section](https://github.com/dotnet/designs/blob/main/accepted/2021/preview-features/preview-features.md#are-preview-features-supported).
 >
-> Apps configured to take advantage of HTTP/3 should be designed to also support HTTP/1.1 and HTTP/2. If issues are identified in HTTP/3, we recommended disabling HTTP/3 until the issues are resolved in a future release of ASP.NET Core. Significant issues are reported at the [Announcements GitHub repository](https://github.com/aspnet/Announcements/issues).
+> Apps configured to take advantage of HTTP/3 should be designed to also support HTTP/1.1 and HTTP/2. If issues are identified in HTTP/3, we recommend disabling HTTP/3 until the issues are resolved in a future release of ASP.NET Core. Significant issues are reported at the [Announcements GitHub repository](https://github.com/aspnet/Announcements/issues).
 
 ## HTTP/3 requirements
 
@@ -39,7 +38,9 @@ The preceding Windows 11 Build versions may require the use of a [Windows Inside
 `libmsquic` is published via Microsoft's official Linux package repository at `packages.microsoft.com`. To install this package:
 
 1. Add the `packages.microsoft.com` repository. See [Linux Software Repository for Microsoft Products](/windows-server/administration/linux-package-repository-for-microsoft-software) for instructions.
-2. Install the `libmsquic` package using the distro's package manager. For example, `apt install libmsquic` on Ubuntu.
+2. Install the `libmsquic` package using the distro's package manager. For example, `apt install libmsquic=1.9*` on Ubuntu.
+
+**Note:** .NET 6 is only compatible with the 1.9.x versions of libmsquic. Libmsquic 2.x is not compatible due to breaking changes. Libmsquic receives updates to 1.9.x when needed to incorporate security fixes.  
 
 ### macOS
 
@@ -47,7 +48,7 @@ HTTP/3 isn't currently supported on macOS and may be available in a future relea
 
 ## Getting started
 
-HTTP/3 is not enabled by default. Add configuration to *Program.cs* to enable HTTP/3.
+HTTP/3 is not enabled by default. Add configuration to `Program.cs` to enable HTTP/3.
 
 :::code language="csharp" source="samples/6.x/KestrelSample/Snippets/Program.cs" id="snippet_Http3" highlight="7-8":::
 
@@ -66,7 +67,7 @@ HTTP/3 is discovered as an upgrade from HTTP/1.1 or HTTP/2 via the `alt-svc` hea
 
 ## Localhost testing
 
-* Browsers do not enable HTTP/3 on localhost or loopback connections. To test with a browser, run the client and server on separate machines. For example, use a Virtual Machine, [Windows Subsystem for Linux](/windows/wsl/), or [Windows Sandbox](/windows/security/threat-protection/windows-sandbox/windows-sandbox-overview).
+* Browsers don't allow self-signed certificates on HTTP/3 such as the Kestrel development certificate.
 * `HttpClient` can be used for localhost/loopback testing in .NET 6 or later. Extra configuration is required when using `HttpClient` to make an HTTP/3 request:
 
   * Set `HttpRequestMessage.Version` to 3.0, or
@@ -80,8 +81,8 @@ Some HTTPS scenarios are not yet supported for HTTP/3 in Kestrel. When calling `
 
 Calling the following implementations of `Microsoft.AspNetCore.Hosting.ListenOptionsHttpsExtensions.UseHttps` throw an error when using HTTP/3:
 
-* `UseHttps(this ListenOptions listenOptions, ServerOptionsSelectionCallback serverOptionsSelectionCallback, object state, TimeSpan handshakeTimeout)`
-* `UseHttps(this ListenOptions listenOptions, TlsHandshakeCallbackOptions callbackOptions)`
+* [UseHttps(this ListenOptions listenOptions, ServerOptionsSelectionCallback serverOptionsSelectionCallback, object state, TimeSpan handshakeTimeout)](xref:Microsoft.AspNetCore.Hosting.ListenOptionsHttpsExtensions.UseHttps(Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions,System.Net.Security.ServerOptionsSelectionCallback,System.Object,System.TimeSpan))
+* [UseHttps(this ListenOptions listenOptions, TlsHandshakeCallbackOptions callbackOptions)](xref:Microsoft.AspNetCore.Hosting.ListenOptionsHttpsExtensions.UseHttps(Microsoft.AspNetCore.Server.Kestrel.Core.ListenOptions,Microsoft.AspNetCore.Server.Kestrel.Https.TlsHandshakeCallbackOptions))
 
 ## HTTP/3 benefits
 
